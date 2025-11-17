@@ -1,1255 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مستكشف الخِلاف والاختِلاف والأسباب</title>
-
-    <!-- Tailwind + Chart.js + الخط -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
-        rel="stylesheet"
-    />
-    <link rel="stylesheet" href="adabstyle.css" />
-
-    <!-- تأثيرات وحركات إضافية -->
-    <style>
-        :root {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Tajawal', system-ui, -apple-system, BlinkMacSystemFont,
-                'Segoe UI', sans-serif;
-        }
-
-        /* خلفية متدرجة متحركة */
-        .animated-bg {
-            background:
-                radial-gradient(circle at 0% 0%, #e0f2fe 0, transparent 50%),
-                radial-gradient(circle at 100% 0%, #fef3c7 0, transparent 55%),
-                radial-gradient(circle at 0% 100%, #e9d5ff 0, transparent 55%),
-                #f9fafb;
-            background-size: 200% 200%;
-            animation: gradientShift 18s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* دخول ناعم للأقسام */
-        .fade-in-up {
-            animation: fadeInUp 0.7s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(24px) scale(0.98);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* بطاقات متحركة ومتوهجة */
-        .card-animate {
-            position: relative;
-            overflow: hidden;
-            transition:
-                transform 0.3s ease,
-                box-shadow 0.3s ease,
-                border-color 0.3s ease;
-        }
-
-        .card-animate:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 24px 45px rgba(15, 23, 42, 0.15);
-        }
-
-        .card-animate::before {
-            content: '';
-            position: absolute;
-            inset: -80%;
-            background: conic-gradient(
-                from 180deg,
-                rgba(56, 189, 248, 0.2),
-                rgba(251, 191, 36, 0.2),
-                rgba(94, 234, 212, 0.2),
-                rgba(59, 130, 246, 0.2),
-                rgba(56, 189, 248, 0.2)
-            );
-            animation: rotateGlow 12s linear infinite;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .card-animate:hover::before {
-            opacity: 1;
-        }
-
-        .card-animate > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes rotateGlow {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .card-inner {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(8px);
-        }
-
-        /* أزرار متحركة */
-        .btn-animate {
-            transition:
-                transform 0.18s ease,
-                box-shadow 0.18s ease,
-                background-color 0.18s ease,
-                color 0.18s ease;
-        }
-
-        .btn-animate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(15, 23, 42, 0.18);
-        }
-
-        /* روابط القائمة العلوية */
-        .nav-link-animate {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link-animate::after {
-            content: '';
-            position: absolute;
-            inset-inline: 12px;
-            bottom: 6px;
-            height: 2px;
-            border-radius: 999px;
-            background: linear-gradient(90deg, #0ea5e9, #f59e0b);
-            transform: translateX(110%);
-            transition: transform 0.25s ease;
-        }
-
-        .nav-link-animate:hover::after {
-            transform: translateX(0);
-        }
-
-        .nav-link-active::after {
-            transform: translateX(0);
-        }
-
-        /* عناصر عائمة تزيينية في الخلفية */
-        .floating-orb {
-            position: fixed;
-            border-radius: 999px;
-            filter: blur(28px);
-            opacity: 0.25;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .floating-orb.orb-1 {
-            width: 220px;
-            height: 220px;
-            top: 10%;
-            inset-inline-start: 5%;
-            background: #0ea5e9;
-            animation: floatOrb1 18s ease-in-out infinite alternate;
-        }
-
-        .floating-orb.orb-2 {
-            width: 260px;
-            height: 260px;
-            bottom: 5%;
-            inset-inline-end: 3%;
-            background: #f97316;
-            animation: floatOrb2 22s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatOrb1 {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-            50% {
-                transform: translate3d(40px, -30px, 0);
-            }
-            100% {
-                transform: translate3d(-20px, 10px, 0);
-            }
-        }
-
-        @keyframes floatOrb2 {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-            50% {
-                transform: translate3d(-35px, 25px, 0);
-            }
-            100% {
-                transform: translate3d(20px, -15px, 0);
-            }
-        }
-
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 260px;
-        }
-
-        @media (min-width: 1024px) {
-            .chart-container {
-                height: 300px;
-            }
-        }
-    </style>
-</head>
-
-<body class="animated-bg text-gray-800 min-h-screen overflow-x-hidden">
-    <!-- عناصر خلفية عائمة -->
-    <div class="floating-orb orb-1"></div>
-    <div class="floating-orb orb-2"></div>
-
-    <!-- Header and Navigation -->
-    <header
-        class="bg-white/80 backdrop-blur border-b border-sky-100 shadow-md sticky top-0 z-50"
-    >
-        <nav
-            class="container mx-auto px-4 sm:px-6 lg:px-8"
-            aria-label="التنقل بين أقسام مستكشف الخلاف والاختلاف"
-        >
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <span
-                        class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-600/90 text-white shadow-md animate-pulse"
-                    >
-                        ✨
-                    </span>
-                    <h1
-                        class="text-2xl font-bold text-sky-800 tracking-tight"
-                    >
-                        مستكشف الخِلاف والاختِلاف
-                    </h1>
-                </div>
-                <div class="hidden md:block">
-                    <div
-                        class="ml-10 flex items-baseline space-x-4 space-x-reverse"
-                    >
-                        <button
-                            id="nav-home"
-                            class="nav-link-animate nav-link-active px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 bg-sky-700 text-white btn-animate"
-                            onclick="showSection('home')"
-                        >
-                            الرئيسية
-                        </button>
-                        <button
-                            id="nav-comparison"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 hover:bg-sky-100 hover:text-sky-800 btn-animate"
-                            onclick="showSection('comparison')"
-                        >
-                            المقارنة
-                        </button>
-                        <button
-                            id="nav-types"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 hover:bg-sky-100 hover:text-sky-800 btn-animate"
-                            onclick="showSection('types')"
-                        >
-                            الأنواع
-                        </button>
-                        <button
-                            id="nav-evidence"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 hover:bg-sky-100 hover:text-sky-800 btn-animate"
-                            onclick="showSection('evidence')"
-                        >
-                            الأدلة
-                        </button>
-                        <button
-                            id="nav-causes"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 hover:bg-sky-100 hover:text-sky-800 btn-animate"
-                            onclick="showSection('causes')"
-                        >
-                            أسباب الاختلاف
-                        </button>
-                        <button
-                            id="nav-discussion"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 hover:bg-sky-100 hover:text-sky-800 btn-animate"
-                            onclick="showSection('discussion')"
-                        >
-                            مناقشة
-                        </button>
-                    </div>
-                </div>
-                <div class="md:hidden">
-                    <select
-                        id="mobile-nav"
-                        class="border border-gray-300 rounded-md p-2 bg-white/80 backdrop-blur"
-                        onchange="showSection(this.value)"
-                    >
-                        <option value="home">الرئيسية</option>
-                        <option value="comparison">المقارنة</option>
-                        <option value="types">الأنواع</option>
-                        <option value="evidence">الأدلة</option>
-                        <option value="causes">أسباب الاختلاف</option>
-                        <option value="discussion">مناقشة</option>
-                    </select>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Content Area -->
-    <main
-        id="content-area"
-        class="container mx-auto p-4 sm:p-6 lg:p-8 relative z-10"
-    >
-        <!-- Content will be injected by JavaScript -->
-    </main>
-
-    <!-- زر العودة للأعلى -->
-    <button
-        id="back-to-top"
-        type="button"
-        class="fixed bottom-6 left-6 z-40 hidden md:flex items-center justify-center w-11 h-11 rounded-full bg-sky-600 text-white shadow-xl hover:bg-sky-700 transition transform hover:-translate-y-1"
-        aria-label="العودة إلى أعلى الصفحة"
-    >
-        ↑
-    </button>
-
-    <!-- Footer -->
-    <footer
-        class="bg-white/80 backdrop-blur border-t border-gray-200 mt-12 relative z-10"
-    >
-        <div class="container mx-auto px-6 py-4 text-center text-gray-500 text-sm">
-            تم إنشاء هذا التطبيق التفاعلي لتحليل وفهم الفروقات الفقهية.
-        </div>
-    </footer>
-
-    <script>
-        let currentChart = null;
-
-        const sections = {
-            home: `
-                <section>
-                    <h2 class="text-3xl font-bold text-sky-800 mb-4 pb-2 border-b-2 border-sky-200 flex items-center gap-2">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg">🏠</span>
-                        <span>مرحبًا بك في مستكشف الخِلاف والاختِلاف</span>
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        يهدف هذا التطبيق إلى تبسيط وشرح مفهومي "الخِلاف" و "الاختِلاف" في الفقه الإسلامي. هذان المصطلحان، رغم تقاربهما، يحملان معاني دقيقة تؤثر في فهم الأحكام والتفاعلات الفقهية.
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-t-4 border-sky-600">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3 flex items-center gap-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-sky-50 text-sky-700 text-sm">1</span>
-                                    الخِلاف (Al-Khilaf)
-                                </h3>
-                                <p class="mb-4 text-gray-700">يُشير غالبًا إلى النزاع أو المعارضة في المقصد والطريق، وقد لا يستند بالضرورة إلى دليل معتبر، ويحمل أحيانًا دلالة سلبية تشير إلى الشقاق.</p>
-                                <h4 class="font-semibold mb-2 text-gray-800">من معانيه اللغوية:</h4>
-                                <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
-                                    <li>ضد الموافقة</li>
-                                    <li>نزاع، خصومة</li>
-                                    <li>تَضَارُبٌ فِي الرَّأْيِ</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-t-4 border-amber-600">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3 flex items-center gap-2">
-                                    <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-amber-50 text-amber-700 text-sm">2</span>
-                                    الاختِلاف (Al-Ikhtilaf)
-                                </h3>
-                                <p class="mb-4 text-gray-700">يُشير غالبًا إلى التنوع والتباين في الآراء المبني على الاجتهاد والأدلة المعتبرة، ويكون فيه المقصد واحدًا ولكن الطرق تتعدد. يُعتبر هذا من رحمة الشريعة وسعتها.</p>
-                                <h4 class="font-semibold mb-2 text-gray-800">من معانيه اللغوية:</h4>
-                                <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
-                                    <li>التنوّع والتباين</li>
-                                    <li>ضد الاتفاق (بمعنى التعدد)</li>
-                                    <li>variety, variousness, difference</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-            comparison: `
-                <section>
-                    <h2 class="text-3xl font-bold text-sky-800 mb-4 pb-2 border-b-2 border-sky-200 flex items-center gap-2">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg">⚖️</span>
-                        <span>مقارنة تفاعلية: الخِلاف مقابل الاختِلاف</span>
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        استخدم الأزرار أدناه لاستكشاف الفروقات الجوهرية بين المفهومين بناءً على السمات الرئيسية المذكورة في التقرير.
-                    </p>
-                    <div class="flex flex-wrap justify-center gap-2 mb-8">
-                        <button class="btn-animate bg-sky-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-shadow duration-200 shadow-md" onclick="updateComparison('definition')">التعريف الاصطلاحي</button>
-                        <button class="btn-animate bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-shadow duration-200" onclick="updateComparison('intent')">المقصود والطريق</button>
-                        <button class="btn-animate bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-shadow duration-200" onclick="updateComparison('evidence')">الاستناد إلى الدليل</button>
-                        <button class="btn-animate bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-shadow duration-200" onclick="updateComparison('ruling')">التكييف الشرعي</button>
-                        <button class="btn-animate bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-shadow duration-200" onclick="updateComparison('summary')">الخلاصة</button>
-                    </div>
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-t-4 border-sky-600">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">الخِلاف</h3>
-                                <div id="comparison-khilaf" class="text-lg min-h-[150px] leading-relaxed">
-                                    هو ذهاب كل طرف إلى وجهة غير وجهة الآخر، سواءً في الأقوال أو الأفعال أو المواقف.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-t-4 border-amber-600">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">الاختِلاف</h3>
-                                <div id="comparison-ikhtilaf" class="text-lg min-h-[150px] leading-relaxed">
-                                    هو تباين الآراء في مسألةٍ ما مع بقاء نوعٍ من الاتفاق في الأصول أو الغايات.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-            types: `
-                <section>
-                    <h2 class="text-3xl font-bold text-sky-800 mb-4 pb-2 border-b-2 border-sky-200 flex items-center gap-2">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg">🧭</span>
-                        <span>خريطة أنواع الاختلاف</span>
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        ينقسم الاختلاف إلى عدة أنواع بناءً على اعتبارات مختلفة. تصفح الأقسام أدناه لفهم هذه التصنيفات وأمثلتها.
-                    </p>
-                    <div class="space-y-8">
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">1. أقسام الاختلاف باعتبار الظاهر</h3>
-                                <p class="mb-4 text-gray-700">ينقسم الاختلاف من حيث ظاهره ونتيجته إلى نوعين رئيسيين:</p>
-                                <div class="flex flex-wrap gap-4">
-                                    <button class="btn-animate bg-sky-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-shadow duration-200 shadow-md" onclick="showTypeDetail('tanawwu')" data-type="tanawwu">اختلاف التنوع</button>
-                                    <button class="btn-animate bg-sky-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-shadow duration-200 shadow-md" onclick="showTypeDetail('tadadd')" data-type="tadadd">اختلاف التضاد</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">2. أنواع الخلاف باعتبار الإثمار</h3>
-                                <p class="mb-4 text-gray-700">ينقسم الخلاف من حيث نتيجته العملية (هل يغير الحكم أم لا) إلى نوعين:</p>
-                                <div class="flex flex-wrap gap-4">
-                                    <button class="btn-animate bg-sky-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-shadow duration-200 shadow-md" onclick="showTypeDetail('manawi')" data-type="manawi">الخلاف المعنوي</button>
-                                    <button class="btn-animate bg-sky-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-sky-700 transition-shadow duration-200 shadow-md" onclick="showTypeDetail('lafdhi')" data-type="lafdhi">الخلاف اللفظي</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="type-detail-area" class="bg-white/90 shadow-lg rounded-xl card-animate bg-sky-50 min-h-[200px] hidden p-[2px]">
-                            <div class="rounded-xl p-6 card-inner">
-                                <!-- Details will be injected here -->
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-            evidence: `
-                <section>
-                    <h2 class="text-3xl font-bold text-sky-800 mb-4 pb-2 border-b-2 border-sky-200 flex items-center gap-2">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg">📜</span>
-                        <span>الأدلة من الكتاب والسنة</span>
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        توضح النصوص التالية أن الاختلاف (التنوع) هو سنة كونية، وأن الاختلاف (النزاع) المذموم هو ما كان مبنيًا على البغي بعد مجيء العلم.
-                    </p>
-                    <div class="space-y-6">
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">آيات قرآنية</h3>
-                                <div class="space-y-4">
-                                    <blockquote class="border-r-4 border-sky-500 pr-4 text-gray-700 leading-relaxed bg-sky-50/60 rounded-lg py-3">
-                                        ﴿وَمِنۡ ءَايَٰتِهِۦ خَلۡقُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ وَٱخۡتِلَٰفُ أَلۡسِنَتِكُمۡ وَأَلۡوَٰنِكُمۡۚ إِنَّ فِي ذَٰلِكَ لَأٓيَٰتٖ لِّلۡعَٰلِمِينَ ٢٢﴾ <span class="text-sm text-sky-700">(سورة الروم: 22)</span>
-                                    </blockquote>
-                                    <blockquote class="border-r-4 border-sky-500 pr-4 text-gray-700 leading-relaxed bg-sky-50/60 rounded-lg py-3">
-                                        ﴿وَءَاتَيۡنَٰهُم بَيِّنَٰتٖ مِّنَ ٱلۡأَمۡرِۖ فَمَا ٱخۡتَلَفُوٓاْ إِلَّا مِنۢ بَعۡدِ مَا جَآءَهُمُ ٱلۡعِلۡمُ بَغۡيَۢا بَيۡنَهُمۡۚ إِنَّ رَبَّكَ يَقۡضِي بَيۡنَهُمۡ يَوۡمَ ٱلۡقِيَٰمَةِ فِيمَا كَانُواْ فِيهِ يَخۡتَلِفُونَ ١٧﴾ <span class="text-sm text-sky-700">(سورة الجاثية: 17)</span>
-                                    </blockquote>
-                                    <blockquote class="border-r-4 border-sky-500 pr-4 text-gray-700 leading-relaxed bg-sky-50/60 rounded-lg py-3">
-                                        ﴿كَانَ ٱلنَّاسُ أُمَّةٗ وَٰحِدَةٗ فَبَعَثَ ٱللَّهُ ٱلنَّبِيِّـۧنَ مُبَشِّرِينَ وَمُنذِرِينَ وَأَنزَلَ مَعَهُمُ ٱلۡكِتَٰبَ بِٱلۡحَقِّ لِيَحۡكُمَ بَيۡنَ ٱلنَّاسِ فِيمَا ٱخۡتَلَفُواْ فِيهِۚ وَمَا ٱخۡتَلَفَ فِيهِ إِلَّا ٱلَّذِينَ أُوتُوهُ مِنۢ بَعۡدِ مَا جَآءَتۡهُمُ ٱلۡبَيِّنَٰتُ بَغۡيَۢا بَيۡنَهُمۡۖ فَهَدَى ٱللَّهُ ٱلَّذِينَ ءَامَنُواْ لِمَا ٱخۡتَلَفُواْ فِيهِ مِنَ ٱلۡحَقِّ بِإِذۡنِهِۦۗ وَٱللَّهُ يَهۡدِي مَن يَشَآءُ إِلَىٰ صِرَٰطٖ مُّسۡتَقِيمٍ ٢١٣﴾ <span class="text-sm text-sky-700">(سورة البقرة: 213)</span>
-                                    </blockquote>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">نصوص مروية</h3>
-                                <div class="space-y-4">
-                                    <blockquote class="border-r-4 border-amber-500 pr-4 text-gray-700 leading-relaxed bg-amber-50/60 rounded-lg py-3">
-                                        روي عنه صلى الله عليه وسلم أنه قال: «‌اختلاف ‌أمتي رحمة»
-                                    </blockquote>
-                                    <blockquote class="border-r-4 border-amber-500 pr-4 text-gray-700 leading-relaxed bg-amber-50/60 rounded-lg py-3">
-                                        من حديث ابن عباس مرفوعًا بلفظ: «‌اختلاف ‌أصحابى رحمة»
-                                    </blockquote>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-            causes: `
-                <section>
-                    <h2 class="text-3xl font-bold text-sky-800 mb-4 pb-2 border-b-2 border-sky-200 flex items-center gap-2">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg">🧠</span>
-                        <span>اسباب الإختلاف بين الناس</span>
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        هذه النقاط السبع توضح الأسباب الجذرية والطبيعية والمنهجية التي تؤدي إلى تباين واختلاف الآراء بين البشر.
-                    </p>
-
-                    <!-- مربع بحث في الأسباب -->
-                    <div class="mb-6">
-                        <input
-                            id="causes-search"
-                            type="text"
-                            class="w-full md:w-2/3 lg:w-1/2 border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition"
-                            placeholder="ابحث عن سبب أو كلمة (مثلاً: الرغبات، المناهج، التقليد)..."
-                        />
-                    </div>
-                    
-                    <div class="grid md:grid-cols-2 gap-6">
-                        <!-- 1 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-sky-500"
-                            data-cause-card="true"
-                            data-cause-title="اختلاف فطري وطبعي وضروري"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>1) إختلاف أمر فطري وطبعي وضروري</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <p class="mb-3 font-semibold text-gray-700">إرادة الله المطلقة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">الله قادر على أن يجعل كل البشر أمة واحدة متفقة في الرأي والاعتقاد، لكنه لم يفعل.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الحكمة من الاختلاف:</p>
-                                    <p class="mb-3 text-sm text-gray-700">الاختلاف بين الناس أمر فطري وطبيعي وضروري، ويُظهر تنوع الله في الخلق.</p>
-                                    <blockquote class="border-l-4 border-gray-200 pl-4 italic text-sm text-gray-600 space-y-2 bg-sky-50/70 rounded-lg py-3">
-                                        <p>قال الله:</p>
-                                        <p>«ولو شاء ربك لجعل الناس أمة واحدة ولا يزالون مختلفين» (سورة هود: 118)</p>
-                                        <p>«وَمِنْ آيَاتِهِ خَلْقُ السَّمَاوَاتِ وَالْأَرْضِ وَاخْتِلَافُ أَلْسِنَتِكُمْ وَأَلْوَانِكُمْ» (الروم: 22)</p>
-                                        <p>«يا أيها الناس إنا خلقناكم من ذكر وأنثى وجعلناكم شعوبًا وقبائل لتعارفوا» (سورة الحجرات: 13)</p>
-                                    </blockquote>
-                                    <p class="mt-3 text-sm text-gray-700">
-                                        هذا الاختلاف فرصة للعلم والحوار والاجتهاد، وليس سببًا للتفرقة الدائمة. الهدف: التعايش والتعارف والتعاون على البر والتقوى، لا الصراع والتفرقة.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 2 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-amber-500"
-                            data-cause-card="true"
-                            data-cause-title="اختلاف المدارك والعقول"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>2) إختلاف المدارك والعقول</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <blockquote class="border-l-4 border-gray-200 pl-4 italic text-sm text-gray-600 mb-3 bg-amber-50/70 rounded-lg py-3">
-                                        عَنِ النَّبِيِّ صلى الله عليه وسلم قَالَ: «إِنَّا مَعَاشِرَ الْأَنْبِيَاءِ كَذَلِكَ أُمِرْنَا أَنْ نُكَلِّمَ النَّاسَ ‌بِقَدْرِ ‌عُقُولِهِمْ»
-                                    </blockquote>
-                                    <p class="mb-3 font-semibold text-gray-700">الفطرة الإلهية:</p>
-                                    <p class="mb-3 text-sm text-gray-700">الله خلق البشر بالقدرات العقلية المتفاوتة؛ فكل شخص يختلف في سرعة الفهم والذكاء والاستيعاب والقدرة على التحليل.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الخبرات والتجارب:</p>
-                                    <p class="mb-3 text-sm text-gray-700">تجارب الحياة المختلفة تؤثر على مدارك الشخص، فمن عاش ظروفًا متنوعة تختلف نظرته عمن عاش ظروفًا أخرى.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">التعليم والمعرفة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">مستوى العلم والثقافة يساهم في اختلاف العقول، فكل شخص يستوعب المعلومات بشكل مختلف ويحللها وفق معرفته.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">التنوع في التفكير:</p>
-                                    <p class="mb-3 text-sm text-gray-700">بعض الناس يميلون للتفكير التحليلي، وبعضهم للتفكير العملي، وهذا التنوع يولد اختلافًا في الآراء والحلول.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 3 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-emerald-500"
-                            data-cause-card="true"
-                            data-cause-title="اختلاف الرغبات"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>3) اختلاف الرغبات</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <p class="mb-3 text-sm text-gray-700">اختلاف الرغبات بين الناس من الأمور الطبيعية والفطرية والضرورية.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الفطرة البشرية:</p>
-                                    <p class="mb-3 text-sm text-gray-700">الله خلق البشر بأهواء ورغبات مختلفة؛ فمن يحب المال، ومن يحب العلم، ومن يحب الجهاد، ومن يحب الراحة والهدوء.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">القدرات والميول الفردية:</p>
-                                    <p class="mb-3 text-sm text-gray-700">كل شخص يسعى لما يوافق طبيعته وميله النفسي.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">البيئة والتربية:</p>
-                                    <p class="mb-3 text-sm text-gray-700">البيئة والتربية والأسرة والمجتمع كلها تؤثر على اختلاف الرغبات.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الخبرة والتجربة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">التجارب الحياتية المختلفة تجعل الناس يفضلون أشياء مختلفة.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الحكمة من اختلاف الرغبات:</p>
-                                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                                        <li>إثراء المجتمع بتنوع المهارات والاهتمامات.</li>
-                                        <li>خلق فرص للتعاون بتوزيع الأدوار حسب الميول.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 4 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-red-500"
-                            data-cause-card="true"
-                            data-cause-title="غموض المسألة وصعوبتها"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>4) غموض المسألة محل النظر أو صعوبتها</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <p class="mb-3 text-sm text-gray-700">غموض المسألة أو دقتها سبب لاختلاف الناس في الرأي والفهم.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">صعوبة المسألة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">بعض الأمور تحتاج إلى فهم عميق واجتهاد خاص، فيختلف الناس بحسب قدراتهم العلمية.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">خفاء التفاصيل:</p>
-                                    <p class="mb-3 text-sm text-gray-700">قد تكون المعطيات ناقصة أو مبهمة، فيختلف تفسيرها.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">دقة المسألة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">وجود جوانب دقيقة يجعل الناس يركزون على زوايا مختلفة.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الحكمة من ذلك:</p>
-                                    <p class="mb-3 text-sm text-gray-700">يدفع إلى الاجتهاد والحوار العلمي والديني.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 5 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-indigo-500"
-                            data-cause-card="true"
-                            data-cause-title="اختلاف المناهج العلمية والثقافات"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>5) إختلاف المناهج العلمية أو المعرفة والثقفات</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <p class="mb-3 font-semibold text-gray-700">اختلاف المناهج العلمية:</p>
-                                    <p class="mb-3 text-sm text-gray-700">كل عالم قد يستخدم طرقًا مختلفة في الدراسة والتحليل، مما يؤدي إلى تنوع النتائج.</p>
-                                    <blockquote class="border-l-4 border-gray-200 pl-4 italic text-sm text-gray-600 mb-3 bg-indigo-50/70 rounded-lg py-3">
-                                        <p>قال عبد الوهّاب بن علي بن عبد الكافي السبكي إنّ أهل السنّة والجماعة قد أجمعوا على أصول عقيدة واحدة، وإن اختلفت مناهجهم بحسب طرائقهم؛ فأهل الحديث يعتمدون على القرآن والحديث والإجماع، وأهل النظر العقلي يجمعون بين القرآن والحديث والعقل، وأهل الوجدان والكشف يجمعون ذلك مع الكشف والإلهام.</p>
-                                    </blockquote>
-                                    
-                                    <p class="font-semibold text-md text-sky-700 mt-4 mb-2">منهج أبي حنيفة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">ترتيبه: القرآن ← السنة ← الإجماع ← قول الصحابي ← الاستحسان ← العرف. لذا وُصف مذهبه بأنه "فقه الرأي" مع الانضباط بالأصول الشرعية.</p>
-                                    
-                                    <p class="font-semibold text-md text-sky-700 mt-4 mb-2">منهج الإمام مالك:</p>
-                                    <p class="mb-3 text-sm text-gray-700">ترتيبه: القرآن ← السنة ← عمل أهل المدينة ← الإجماع ← قول الصحابي ← القياس ← المصلحة المرسلة ← سدّ الذرائع ← الاستحسان ← العرف. مما جعله مذهبًا واقعيًا يراعي أحوال الناس.</p>
-
-                                    <p class="font-semibold text-md text-sky-700 mt-4 mb-2">منهج الإمام الشافعي:</p>
-                                    <p class="mb-3 text-sm text-gray-700">ترتيبه: القرآن ← السنة ← الإجماع ← قول الصحابي (عند عدم المخالف) ← القياس ← الاستصحاب ← العرف بشروط. لذا سُمّي مذهبه بـ"مذهب النصوص".</p>
-
-                                    <p class="font-semibold text-md text-sky-700 mt-4 mb-2">منهج الإمام أحمد بن حنبل:</p>
-                                    <p class="mb-3 text-sm text-gray-700">ترتيبه غالبًا: القرآن ← السنة ← أقوال الصحابة ← الإجماع المتيقن ← القياس (عند الضرورة) ← الاستصحاب ← سدّ الذرائع والعرف. ويُعدّ مذهب الأثر لقوة اعتماده على النصوص.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 6 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-pink-500"
-                            data-cause-card="true"
-                            data-cause-title="اختلاف مستويات المعرفة والثقافات"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>6) اختلاف مستويات المعرفة والثقافات</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <p class="mb-3 font-semibold text-gray-700">اختلاف مستويات المعرفة:</p>
-                                    <p class="mb-3 text-sm text-gray-700">يختلف الفهم بحسب ما تلقاه الإنسان من علم وخبرة؛ فالمطلع يفسر القضية بعمق أكبر.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">اختلاف الثقافات والعادات:</p>
-                                    <p class="mb-3 text-sm text-gray-700">لكل مجتمع عادات وتقاليد ونظرة معينة للأمور، مما يؤثر على طريقة التفكير.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الحكمة من هذا الاختلاف:</p>
-                                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                                        <li>يجعل المجتمع غنيًا بالمعرفة والأفكار المتنوعة.</li>
-                                        <li>يدفع إلى الحوار والتفاهم بين الأفراد والمجتمعات.</li>
-                                        <li>يساعد على اكتشاف حلول جديدة ومبتكرة للمشكلات.</li>
-                                    </ul>
-                                    <p class="mt-3 text-sm text-gray-600">
-                                        يمكن تحويل هذه الأسباب إلى جداول ورسوم بيانية لتسهيل الفهم للطلاب والمتعلمين.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- 7 -->
-                        <div
-                            class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate border-r-4 border-yellow-700"
-                            data-cause-card="true"
-                            data-cause-title="التقليد والتعصب للآراء"
-                        >
-                            <div class="rounded-xl p-6 card-inner">
-                                <button
-                                    type="button"
-                                    class="w-full flex items-center justify-between text-right text-xl font-bold text-sky-700 mb-3 focus:outline-none"
-                                    data-cause-toggle
-                                >
-                                    <span>7) التقليد والتعصب لأراء المتقدمين</span>
-                                    <span
-                                        class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-sky-50 text-sky-700 text-sm transition-transform duration-200"
-                                        aria-hidden="true"
-                                    >
-                                        +
-                                    </span>
-                                </button>
-
-                                <div class="space-y-2" data-cause-body>
-                                    <p class="mb-3 text-sm text-gray-700">التقليد والتعصب لآراء السابقين واعتبارها لا تُخالف سبب من أسباب اختلاف الناس.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">التقليد الأعمى:</p>
-                                    <p class="mb-3 text-sm text-gray-700">اتباع آراء العلماء دون فهم أو تمحيص، والاعتقاد بأنها مطلقة، مما يحد من الاجتهاد.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">التعصب للأراء:</p>
-                                    <p class="mb-3 text-sm text-gray-700">التمسك برأي معين بسبب مكانة القائل، ولو ظهرت أدلة جديدة.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">جهل مكانة الرأي:</p>
-                                    <p class="mb-3 text-sm text-gray-700">عدم فهم ظروف الرأي واجتهاديته، فيُعامل كأنه قطعي.</p>
-                                    <p class="mb-3 font-semibold text-gray-700">الحكمة من فهم هذا السبب:</p>
-                                    <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
-                                        <li>إبراز أهمية الفهم الصحيح للأدلة قبل التقليد.</li>
-                                        <li>تشجيع احترام آراء السابقين مع إبقاء باب الاجتهاد مفتوحًا.</li>
-                                        <li>منع التعصب الذي يؤدي إلى خلافات وصراعات غير ضرورية.</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-            discussion: `
-                <section>
-                    <h2 class="text-3xl font-bold text-sky-800 mb-4 pb-2 border-b-2 border-sky-200 flex items-center gap-2">
-                        <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-lg">💬</span>
-                        <span>مناقشة: المصيب والمخطئ في الاجتهاد</span>
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-6 leading-relaxed">
-                        توضح النصوص الشرعية أن الاجتهاد مأجور حتى لو لم يصب المجتهد الحق، طالما كان اجتهاده مبنيًا على أصول صحيحة. هذا الفهم هو أساس الرحمة والسعة في الاختلاف السائغ.
-                    </p>
-                    <div class="grid md:grid-cols-2 gap-6 items-center">
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">أجر المجتهد</h3>
-                                <p class="mb-4 text-gray-700">حديث عمرو بن العاص (رضي الله عنه) يوضح هذا المبدأ:</p>
-                                <blockquote class="border-r-4 border-sky-500 pr-4 italic text-gray-700 leading-relaxed bg-sky-50/60 rounded-lg py-3">
-                                    «إِذَا حَكَمَ الْحَاكِمُ فَاجْتَهَدَ فَأَصَابَ فَلَهُ أَجْرَانِ، وَإِذَا حَكَمَ فَاجْتَهَدَ فَأَخْطَأَ فَلَهُ أَجْرٌ» (رواه البخاري ومسلم)
-                                </blockquote>
-                                <p class="mt-4 text-gray-700">
-                                    يوضح الإمام الشعراني أن هذا دليل على مشروعية تنوع الأقوال، وأن خطأ المجتهد هنا هو "عدم مصادفة الدليل" لا "الخروج عن الشريعة"، ولذلك له أجر على تتبعه واجتهاده.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="bg-white/90 shadow-lg rounded-xl p-[2px] card-animate">
-                            <div class="rounded-xl p-6 card-inner">
-                                <h3 class="text-xl font-bold text-sky-700 mb-3">رسم بياني: أجر الاجتهاد</h3>
-                                <p class="text-sm text-gray-600 mb-2">تمثيل بصري لعدد الأجور لمن أصاب ولمن أخطأ في الاجتهاد.</p>
-                                <div class="chart-container">
-                                    <canvas id="rewardChart" role="img" aria-label="تمثيل بياني لأجر من اجتهد فأصاب وأجر من اجتهد فأخطأ"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            `,
-        };
-
-        const comparisonData = {
-            definition: {
-                khilaf:
-                    'هو ذهاب كل طرف إلى وجهة غير وجهة الآخر، سواءً في الأقوال أو الأفعال أو المواقف.',
-                ikhtilaf:
-                    'هو تباين الآراء في مسألةٍ ما مع بقاء نوعٍ من الاتفاق في الأصول أو الغايات.',
-            },
-            intent: {
-                khilaf: 'اختلاف في المقصود والطريق معًا.',
-                ikhtilaf: 'أن يكون المقصود واحدًا لكن الطريق أو الوسيلة مختلفة.',
-            },
-            evidence: {
-                khilaf: 'لا يستند إلى دليل، وقد يكون من آثار البدعة.',
-                ikhtilaf: 'يستند إلى دليل معتبر شرعيًا.',
-            },
-            ruling: {
-                khilaf: 'قد يصف النزاع والشقاق الذي لا تُقره الشريعة.',
-                ikhtilaf:
-                    'يُعد من آثار الرحمة والتنوع المسموح به في الاجتهاد.',
-            },
-            summary: {
-                khilaf:
-                    'أشمل وأعمّ وقد يحمل معنى النزاع والتنازع غير المبني على الدليل.',
-                ikhtilaf:
-                    'هو التعدد المقبول في الرأي داخل إطار الاجتهاد الشرعي.',
-            },
-        };
-
-        const typeDetails = {
-            tanawwu: `
-                <h4 class="text-xl font-bold text-green-700 mb-3">اختلاف التنوع (مشروع)</h4>
-                <p class="mb-3 text-gray-700">هو اختلاف بين أقوال أو أفعال كلّها صحيحة ومشروعة، لا يُناقض بعضها بعضًا. يُعد من محاسن الشريعة ويفتح باب السعة والرحمة.</p>
-                <p class="font-semibold mb-2 text-gray-800">أمثلة:</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>صيغ التشهد المختلفة في الصلاة.</li>
-                    <li>قراءات القرآن الكريم (مثل: مالكِ / مَلِكِ).</li>
-                    <li>أذكار الركوع والسجود المتنوعة.</li>
-                </ul>
-            `,
-            tadadd: `
-                <h4 class="text-xl font-bold text-red-700 mb-3">اختلاف التضاد (يحتاج ترجيح)</h4>
-                <p class="mb-3 text-gray-700">هو اختلاف بين قولين لا يمكن اجتماعهما؛ إذا صَحّ أحدهما بَطَل الآخر. هذا النوع لا بد فيه من الترجيح بالقوة الدليلية.</p>
-                <p class="font-semibold mb-2 text-gray-800">أمثلة:</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>حكم البيع بعد نداء الجمعة (صحيح مع الإثم / باطل).</li>
-                    <li>عدد الرضعات المحرِّمة (ثلاث / خمس).</li>
-                </ul>
-                <p class="mt-4 font-semibold text-gray-800">ينقسم هذا النوع إلى قسمين (انظر البطاقات الفرعية):</p>
-                <div class="flex flex-wrap gap-4 mt-4">
-                    <button class="btn-animate bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-shadow duration-200" onclick="showTypeDetail('saigh')" data-type="saigh">اختلاف تضاد (سائغ)</button>
-                    <button class="btn-animate bg-gray-200 text-gray-700 px-5 py-2 rounded-lg font-semibold hover:bg-gray-300 transition-shadow duration-200" onclick="showTypeDetail('madhmoum')" data-type="madhmoum">اختلاف تضاد (مذموم)</button>
-                </div>
-            `,
-            saigh: `
-                <h4 class="text-xl font-bold text-blue-700 mb-3">اختلاف تضاد (سائغ غير مذموم)</h4>
-                <p class="mb-3 text-gray-700">هو اختلاف مقبول ومعتبر لأنه يقوم على أسس صحيحة واجتهاد معتبر (مثل اختلاف في فهم نص يحتمل أكثر من وجه).</p>
-                <p class="font-semibold mb-2 text-gray-800">أمثلة:</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>حكم قراءة الفاتحة خلف الإمام.</li>
-                    <li>مقدار مسح الرأس في الوضوء.</li>
-                </ul>
-            `,
-            madhmoum: `
-                <h4 class="text-xl font-bold text-red-800 mb-3">اختلاف تضاد (غير سائغ بل مذموم)</h4>
-                <p class="mb-3 text-gray-700">هو الخلاف الذي لا يُعذر صاحبه، لأنه مبني على أسباب باطلة، أو مخالفة نص قطعي، أو تجاهل إجماع ثابت، أو مبني على الهوى والتعصب.</p>
-                <p class="font-semibold mb-2 text-gray-800">أمثلة:</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>الخلاف في أصول العقيدة القطعية.</li>
-                    <li>إنكار ركن من أركان الإسلام.</li>
-                    <li>الابتداع في الدين.</li>
-                </ul>
-            `,
-            manawi: `
-                <h4 class="text-xl font-bold text-indigo-700 mb-3">الخلاف المعنوي (حقيقي)</h4>
-                <p class="mb-3 text-gray-700">هو اختلاف حقيقي بين الفقهاء أو المجتهدين في الحكم الشرعي أو أثره العملي، بحيث يترتب على القولين أحكام وآثار مختلفة في التطبيق. له "ثمرة عملية".</p>
-                <p class="font-semibold mb-2 text-gray-800">أمثلة:</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>نقض الوضوء بمس المرأة (ينقض مطلقًا / لا ينقض إلا بشهوة) وما يترتب على ذلك من صحة الصلاة من عدمها.</li>
-                    <li>قراءة الفاتحة خلف الإمام (واجبة على المأموم / تكفي قراءة الإمام).</li>
-                </ul>
-            `,
-            lafdhi: `
-                <h4 class="text-xl font-bold text-gray-700 mb-3">الخلاف اللفظي (صوري)</h4>
-                <p class="mb-3 text-gray-700">هو اختلاف في العبارات والألفاظ والتعبيرات، دون أن يترتب على ذلك اختلاف حقيقي في الحكم الشرعي أو أثر عملي في الواقع. لا ثمرة عملية له.</p>
-                <p class="font-semibold mb-2 text-gray-800">أمثلة:</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-1">
-                    <li>القول: (الأمر للوجوب) مقابل (الأمر يقتضي الوجوب) مع اتحاد النتيجة.</li>
-                    <li>اختلاف في تعريف الفقه بزيادة كلمات لا تغير المعنى العملي.</li>
-                </ul>
-            `,
-        };
-
-        function showSection(sectionId) {
-            if (currentChart) {
-                currentChart.destroy();
-                currentChart = null;
-            }
-
-            const contentArea = document.getElementById('content-area');
-            contentArea.innerHTML = sections[sectionId];
-
-            const sectionEl = contentArea.querySelector('section');
-            if (sectionEl) {
-                sectionEl.classList.add('fade-in-up');
-            }
-
-            // تحديث أزرار التبويب
-            document.querySelectorAll('nav button').forEach((btn) => {
-                btn.classList.remove(
-                    'bg-sky-700',
-                    'text-white',
-                    'nav-link-active'
-                );
-                btn.classList.add(
-                    'text-gray-600',
-                    'hover:bg-sky-100',
-                    'hover:text-sky-800'
-                );
-            });
-
-            const activeBtn = document.getElementById(`nav-${sectionId}`);
-            if (activeBtn) {
-                activeBtn.classList.add(
-                    'bg-sky-700',
-                    'text-white',
-                    'nav-link-active'
-                );
-                activeBtn.classList.remove(
-                    'text-gray-600',
-                    'hover:bg-sky-100',
-                    'hover:text-sky-800'
-                );
-            }
-
-            const mobileNav = document.getElementById('mobile-nav');
-            if (mobileNav) {
-                mobileNav.value = sectionId;
-            }
-
-            if (sectionId === 'discussion') {
-                renderRewardChart();
-            }
-
-            if (sectionId === 'comparison') {
-                updateComparison('definition');
-            }
-
-            if (sectionId === 'causes') {
-                initCausesFeatures();
-            }
-        }
-
-        function updateComparison(key) {
-            document.getElementById('comparison-khilaf').innerText =
-                comparisonData[key].khilaf;
-            document.getElementById('comparison-ikhtilaf').innerText =
-                comparisonData[key].ikhtilaf;
-
-            const buttons = document.querySelectorAll(
-                '#content-area button[onclick^="updateComparison"]'
-            );
-            buttons.forEach((btn) => {
-                if (btn.onclick.toString().includes(key)) {
-                    btn.classList.add('bg-sky-600', 'text-white', 'shadow-md');
-                    btn.classList.remove('bg-gray-200', 'text-gray-700');
-                } else {
-                    btn.classList.remove(
-                        'bg-sky-600',
-                        'text-white',
-                        'shadow-md'
-                    );
-                    btn.classList.add('bg-gray-200', 'text-gray-700');
-                }
-            });
-        }
-
-        function showTypeDetail(typeKey) {
-            const detailWrapper = document.getElementById('type-detail-area');
-            if (!detailWrapper) return;
-
-            const inner = detailWrapper.querySelector('.card-inner');
-            if (inner) {
-                inner.innerHTML = typeDetails[typeKey];
-            }
-            detailWrapper.classList.remove('hidden');
-            detailWrapper.classList.add('fade-in-up');
-
-            const allTypeButtons = document.querySelectorAll(
-                '#content-area button[data-type]'
-            );
-            allTypeButtons.forEach((btn) => {
-                const currentType = btn.getAttribute('data-type');
-
-                if (currentType === typeKey) {
-                    btn.classList.add('bg-amber-600', 'text-white');
-                    btn.classList.remove(
-                        'bg-sky-600',
-                        'bg-gray-200',
-                        'text-gray-700'
-                    );
-                } else {
-                    if (
-                        ['tanawwu', 'tadadd', 'manawi', 'lafdhi'].includes(
-                            currentType
-                        )
-                    ) {
-                        btn.classList.add('bg-sky-600', 'text-white');
-                        btn.classList.remove(
-                            'bg-amber-600',
-                            'bg-gray-200',
-                            'text-gray-700'
-                        );
-                    } else {
-                        btn.classList.add('bg-gray-200', 'text-gray-700');
-                        btn.classList.remove(
-                            'bg-amber-600',
-                            'bg-sky-600',
-                            'text-white'
-                        );
-                    }
-                }
-            });
-
-            if (['saigh', 'madhmoum'].includes(typeKey)) {
-                const tadaddButton = document.querySelector(
-                    '#content-area button[data-type="tadadd"]'
-                );
-                if (tadaddButton) {
-                    tadaddButton.classList.add('bg-amber-600', 'text-white');
-                    tadaddButton.classList.remove('bg-sky-600');
-                }
-            }
-        }
-
-        function renderRewardChart() {
-            const canvas = document.getElementById('rewardChart');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            if (currentChart) {
-                currentChart.destroy();
-            }
-            currentChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['اجتهد فأخطأ', 'اجتهد فأصاب'],
-                    datasets: [
-                        {
-                            label: 'عدد الأجور',
-                            data: [1, 2],
-                            backgroundColor: [
-                                'rgba(234, 179, 8, 0.7)',
-                                'rgba(14, 116, 144, 0.8)',
-                            ],
-                            borderColor: [
-                                'rgba(234, 179, 8, 1)',
-                                'rgba(14, 116, 144, 1)',
-                            ],
-                            borderWidth: 1,
-                            borderRadius: 6,
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    animation: {
-                        duration: 1200,
-                        easing: 'easeOutQuart',
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                stepSize: 1,
-                                color: '#374151',
-                            },
-                            title: {
-                                display: true,
-                                text: 'مقدار الأجر',
-                                color: '#1f2937',
-                            },
-                            grid: {
-                                color: 'rgba(148, 163, 184, 0.25)',
-                            },
-                        },
-                        x: {
-                            ticks: {
-                                color: '#374151',
-                            },
-                            grid: {
-                                display: false,
-                            },
-                        },
-                    },
-                    plugins: {
-                        legend: {
-                            display: false,
-                        },
-                        tooltip: {
-                            rtl: true,
-                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                            padding: 10,
-                            cornerRadius: 8,
-                            bodyFont: {
-                                family: 'Tajawal',
-                            },
-                            titleFont: {
-                                family: 'Tajawal',
-                            },
-                        },
-                    },
-                },
-            });
-        }
-
-        /* أكوردين + بحث في "أسباب الاختلاف" */
-        function initCausesFeatures() {
-            const contentArea = document.getElementById('content-area');
-            if (!contentArea) return;
-
-            const cards =
-                contentArea.querySelectorAll('[data-cause-card]');
-            cards.forEach((card, index) => {
-                const toggleBtn = card.querySelector('[data-cause-toggle]');
-                const body = card.querySelector('[data-cause-body]');
-                const icon = toggleBtn
-                    ? toggleBtn.querySelector(
-                          'span[aria-hidden="true"]'
-                      )
-                    : null;
-
-                if (!toggleBtn || !body) return;
-
-                const isFirst = index === 0;
-                if (!isFirst) {
-                    body.classList.add('hidden');
-                } else {
-                    body.classList.remove('hidden');
-                }
-                if (icon) {
-                    icon.textContent = isFirst ? '−' : '+';
-                }
-
-                toggleBtn.addEventListener('click', () => {
-                    const isHidden = body.classList.contains('hidden');
-
-                    cards.forEach((otherCard) => {
-                        const otherBody =
-                            otherCard.querySelector('[data-cause-body]');
-                        const otherIcon =
-                            otherCard.querySelector(
-                                '[data-cause-toggle] span[aria-hidden="true"]'
-                            );
-                        if (otherBody && otherIcon) {
-                            otherBody.classList.add('hidden');
-                            otherIcon.textContent = '+';
-                        }
-                    });
-
-                    if (isHidden) {
-                        body.classList.remove('hidden');
-                        if (icon) icon.textContent = '−';
-                    }
-                });
-            });
-
-            const searchInput =
-                document.getElementById('causes-search');
-            if (searchInput) {
-                searchInput.addEventListener('input', () => {
-                    const q = searchInput.value
-                        .trim()
-                        .toLowerCase();
-                    cards.forEach((card) => {
-                        const title = (
-                            card.getAttribute('data-cause-title') || ''
-                        ).toLowerCase();
-                        const text = card.innerText.toLowerCase();
-                        const match =
-                            !q || title.includes(q) || text.includes(q);
-                        card.classList.toggle('hidden', !match);
-                    });
-                });
-            }
-        }
-
-        /* زر العودة للأعلى */
-        function initBackToTop() {
-            const btn = document.getElementById('back-to-top');
-            if (!btn) return;
-
-            window.addEventListener('scroll', () => {
-                const shouldShow = window.scrollY > 250;
-                btn.classList.toggle('hidden', !shouldShow);
-            });
-
-            btn.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            showSection('home');
-            initBackToTop();
-        });
-    </script>
-</body>
-</html>
