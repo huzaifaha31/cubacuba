@@ -1,174 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>مستكشف الخِلاف والاختِلاف والأسباب</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
-        rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles1.css" />
-
-    <!-- تكوين Tailwind لدعم dark: -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-        };
-    </script>
-</head>
-
-<body class="animated-bg text-gray-800 dark:bg-slate-900 dark:text-gray-100 min-h-screen overflow-x-hidden transition-colors duration-300">
-    <!-- عناصر خلفية عائمة -->
-    <div class="floating-orb orb-1"></div>
-    <div class="floating-orb orb-2"></div>
-
-    <!-- Header and Navigation -->
-    <header
-        class="bg-white/80 dark:bg-slate-800/90 backdrop-blur border-b border-sky-100 dark:border-slate-700 shadow-md sticky top-0 z-50 transition-colors duration-300"
-    >
-        <nav
-            class="container mx-auto px-4 sm:px-6 lg:px-8"
-            aria-label="التنقل بين أقسام مستكشف الخلاف والاختلاف"
-        >
-            <div class="flex items-center justify-between h-16">
-                <div class="flex-shrink-0 flex items-center gap-2">
-                    <span
-                        class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-600/90 text-white shadow-md animate-pulse"
-                    >
-                        ✨
-                    </span>
-                    <h1 class="text-2xl font-bold text-sky-800 dark:text-sky-400 tracking-tight">
-                        مستكشف الخِلاف والاختِلاف
-                    </h1>
-                </div>
-
-                <!-- زر الوضع الليلي -->
-                <button
-                    id="theme-toggle"
-                    type="button"
-                    class="hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-sky-100 dark:bg-slate-700 text-sky-800 dark:text-sky-300 hover:bg-sky-200 dark:hover:bg-slate-600 transition-all duration-200 mr-4"
-                    aria-label="تبديل الوضع الليلي"
-                    title="تبديل الوضع الليلي/النهاري"
-                >
-                    <span id="theme-icon">🌙</span>
-                </button>
-
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4 space-x-reverse">
-                        <button
-                            id="nav-home"
-                            class="nav-link-animate nav-link-active px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 bg-sky-700 text-white btn-animate"
-                            onclick="showSection('home')"
-                        >
-                            الرئيسية
-                        </button>
-                        <button
-                            id="nav-comparison"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700 hover:text-sky-800 dark:hover:text-sky-300 btn-animate"
-                            onclick="showSection('comparison')"
-                        >
-                            المقارنة
-                        </button>
-                        <button
-                            id="nav-types"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700 hover:text-sky-800 dark:hover:text-sky-300 btn-animate"
-                            onclick="showSection('types')"
-                        >
-                            الأنواع
-                        </button>
-                        <button
-                            id="nav-evidence"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700 hover:text-sky-800 dark:hover:text-sky-300 btn-animate"
-                            onclick="showSection('evidence')"
-                        >
-                            الأدلة
-                        </button>
-                        <button
-                            id="nav-causes"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700 hover:text-sky-800 dark:hover:text-sky-300 btn-animate"
-                            onclick="showSection('causes')"
-                        >
-                            أسباب الاختلاف
-                        </button>
-                        <button
-                            id="nav-discussion"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700 hover:text-sky-800 dark:hover:text-sky-300 btn-animate"
-                            onclick="showSection('discussion')"
-                        >
-                            مناقشة
-                        </button>
-                        <button
-                            id="nav-quiz"
-                            class="nav-link-animate px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 text-gray-600 dark:text-gray-300 hover:bg-sky-100 dark:hover:bg-slate-700 hover:text-sky-800 dark:hover:text-sky-300 btn-animate"
-                            onclick="showSection('quiz')"
-                        >
-                            اختبر معلوماتك
-                        </button>
-                    </div>
-                </div>
-                <div class="md:hidden flex items-center gap-2">
-                    <!-- زر الوضع الليلي للموبايل -->
-                    <button
-                        id="theme-toggle-mobile"
-                        type="button"
-                        class="flex items-center justify-center w-9 h-9 rounded-full bg-sky-100 dark:bg-slate-700 text-sky-800 dark:text-sky-300"
-                        aria-label="تبديل الوضع الليلي"
-                    >
-                        <span id="theme-icon-mobile">🌙</span>
-                    </button>
-                    <select
-                        id="mobile-nav"
-                        class="border border-gray-300 dark:border-slate-600 rounded-md p-2 bg-white/80 dark:bg-slate-700 dark:text-gray-100 backdrop-blur"
-                        onchange="showSection(this.value)"
-                    >
-                        <option value="home">الرئيسية</option>
-                        <option value="comparison">المقارنة</option>
-                        <option value="types">الأنواع</option>
-                        <option value="evidence">الأدلة</option>
-                        <option value="causes">أسباب الاختلاف</option>
-                        <option value="discussion">مناقشة</option>
-                        <option value="quiz">اختبر معلوماتك</option>
-                    </select>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Content Area -->
-    <main
-        id="content-area"
-        class="container mx-auto p-4 sm:p-6 lg:p-8 relative z-10"
-    >
-        <!-- Content will be injected by JavaScript -->
-    </main>
-
-    <!-- زر العودة للأعلى -->
-    <button
-        id="back-to-top"
-        type="button"
-        class="fixed bottom-6 left-6 z-40 hidden md:flex items-center justify-center w-11 h-11 rounded-full bg-sky-600 dark:bg-sky-500 text-white shadow-xl hover:bg-sky-700 dark:hover:bg-sky-600 transition transform hover:-translate-y-1"
-        aria-label="العودة إلى أعلى الصفحة"
-    >
-        ↑
-    </button>
-
-    <!-- Footer -->
-    <footer
-        class="bg-white/80 dark:bg-slate-800/90 backdrop-blur border-t border-gray-200 dark:border-slate-700 mt-12 relative z-10 transition-colors duration-300"
-    >
-        <div class="container mx-auto px-6 py-4 text-center text-gray-500 dark:text-gray-400 text-sm">
-            تم إنشاء هذا التطبيق التفاعلي لتحليل وفهم الفروقات الفقهية.
-        </div>
-    </footer>
-
-    <!-- يمكنك استخدام ملف JS منفصل: <script src="app.js"></script> -->
-    <!-- أو إبقاء الكود هنا مباشرة: -->
-    <script src="app.js"></script>
-</body>
-</html>
